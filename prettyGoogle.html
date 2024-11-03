@@ -7,6 +7,7 @@
     <meta name="keywords" content="Google, search, light mode, dark mode, 3D">
     <title>Prettier Google</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔎</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM3OLKyWeG0Qeu8u5VFL5YLzY1w1P3Ut1Hg1ETc" crossorigin="anonymous">
     <style>
         body {
             font-family: sans-serif;
@@ -104,11 +105,12 @@
         .dark-mode #mode-toggle {
           color: white;
         }
-
     </style>
 </head>
 <body>
-    <span id="mode-toggle" onclick="toggleDarkMode()">🌙</span>
+    <span id="mode-toggle" onclick="toggleDarkMode()">
+        <i id="mode-icon" class="fas fa-moon"></i>
+    </span>
     <div class="container">
         <img id="google-logo" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" height="60px">
         <form id="search-form" action="https://www.google.com/search" method="get">
@@ -124,12 +126,17 @@
     <script>
       function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+
+        // Update the icon based on the mode
+        document.getElementById('mode-icon').className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
       }
 
-      // Apply dark mode if saved in localStorage
+      // Apply dark mode if saved in localStorage and set the icon accordingly
       if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
+        document.getElementById('mode-icon').className = 'fas fa-sun';
       }
 
       document.getElementById('search-form').addEventListener('submit', function(event) {
